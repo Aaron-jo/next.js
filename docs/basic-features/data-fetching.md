@@ -1,13 +1,13 @@
 ---
-description: 'Next.js has 2 pre-rendering modes: Static Generation and Server-side rendering. Learn how they work here.'
+description: 'Next.js 有两种预渲染的模式: 静态生成和服务端渲染。在这里学习他们是怎样工作的。'
 ---
 
-# Data fetching
+# 数据获取
 
-> This document is for Next.js versions 9.3 and up. If you’re using older versions of Next.js, refer to our [previous documentation](https://nextjs.org/docs/tag/v9.2.2/basic-features/data-fetching).
+> 本文档适用于 Next.js 9.3 或更高版本。如果你使用的是较旧版本的 Next.js，请参阅[先前版本的文档](https://nextjs.org/docs/tag/v9.2.2/basic-features/pages)。
 
 <details open>
-  <summary><b>Examples</b></summary>
+  <summary><b>示例</b></summary>
   <ul>
     <li><a href="https://github.com/vercel/next.js/tree/canary/examples/cms-wordpress">WordPress Example</a> (<a href="https://next-blog-wordpress.now.sh">Demo</a>)</li>
     <li><a href="https://github.com/vercel/next.js/tree/canary/examples/blog-starter">Blog Starter using markdown files</a> (<a href="https://next-blog-starter.now.sh/">Demo</a>)</li>
@@ -26,19 +26,19 @@ description: 'Next.js has 2 pre-rendering modes: Static Generation and Server-si
   </ul>
 </details>
 
-In the [Pages documentation](/docs/basic-features/pages.md), we’ve explained that Next.js has two forms of pre-rendering: **Static Generation** and **Server-side Rendering**. In this page, we’ll talk in depths about data fetching strategies for each case. We recommend you to [read through the Pages documentation](/docs/basic-features/pages.md) first if you haven’t done so.
+在[页面文档](/docs/basic-features/pages.md)中，我们已经解释了 Next.js 有两种预渲染形式：**静态生成**和**服务端渲染**。在本页中，我们将深入讨论每种情况下的数据获取策略。如果你还没有阅读页面文档，我们建议你[先阅读页面文档](/docs/basic-features/pages.md)。
 
-We’ll talk about the three unique Next.js functions you can use to fetch data for pre-rendering:
+我们将讨论三个 Next.js 专属的函数，你可以使用这些函数来获取用于预渲染的数据:
 
-- [`getStaticProps`](#getstaticprops-static-generation) (Static Generation): Fetch data at **build time**.
-- [`getStaticPaths`](#getstaticpaths-static-generation) (Static Generation): Specify [dynamic routes](/docs/routing/dynamic-routes.md) to pre-render based on data.
-- [`getServerSideProps`](#getserversideprops-server-side-rendering) (Server-side Rendering): Fetch data on **each request**.
+- [`getStaticProps`](#getstaticprops-static-generation) (静态生成): 在**构建时**请求数据。
+- [`getStaticPaths`](#getstaticpaths-static-generation) (静态生成): 指定[动态路由](/docs/routing/dynamic-routes.md)根据数据预渲染。
+- [`getServerSideProps`](#getserversideprops-server-side-rendering) (服务端渲染): 在**每个请求时**请求数据。
 
-In addition, we’ll talk briefly about how to fetch data on the client side.
+此外，我们将简要讨论如何在客户端获取数据。
 
-## `getStaticProps` (Static Generation)
+## `getStaticProps` (静态生成)
 
-If you export an `async` function called `getStaticProps` from a page, Next.js will pre-render this page at build time using the props returned by `getStaticProps`.
+如果从一个页面导出一个名为 `getStaticProps`的 `async` 函数，则 Next.js 将在构建时使用由 `getStaticProps` 返回的属性对该页面进行预渲染。
 
 ```jsx
 export async function getStaticProps(context) {
@@ -48,23 +48,23 @@ export async function getStaticProps(context) {
 }
 ```
 
-The `context` parameter is an object containing the following keys:
+`context`参数是一个包含以下键的对象:
 
-- `params` contains the route parameters for pages using dynamic routes. For example, if the page name is `[id].js` , then `params` will look like `{ id: ... }`. To learn more, take a look at the [Dynamic Routing documentation](/docs/routing/dynamic-routes.md). You should use this together with `getStaticPaths`, which we’ll explain later.
-- `preview` is `true` if the page is in the preview mode and `false` otherwise. See the [Preview Mode documentation](/docs/advanced-features/preview-mode.md).
-- `previewData` contains the preview data set by `setPreviewData`. See the [Preview Mode documentation](/docs/advanced-features/preview-mode.md).
+- `params`: 包含使用动态路由的页面的路由参数。例如，如果页面名称为 `[id].js`，那么 `params` 将看起来像 `{ id: ... }`。要了解更多信息，请查看[动态路由文档](/docs/routing/dynamic-routes.md)。你应该把它和 `getStaticPaths` 一起使用，稍后我们会对此进行说明。
+- `preview`: 如果页面是预览模式，则`preview`是`true`，否则为`false`。参见[预览模式文档](/docs/advanced-features/preview-mode.md)。
+- `previewData`: 包含由 `setPreviewData` 设置的预览数据集。参见[预览模式文档](/docs/advanced-features/preview-mode.md)。
 
-`getStaticProps` should return an object with:
+`getStaticProps` 应该返回一个像这样的对象:
 
-- `props` - A **required** object with the props that will be received by the page component. It should be a [serializable object](https://en.wikipedia.org/wiki/Serialization)
-- `revalidate` - An **optional** amount in seconds after which a page re-generation can occur. More on [Incremental Static Regeneration](#incremental-static-regeneration)
+- `props` - **必须的**的对象，带有将由页面组件接收的属性。它应该是一个[可序列化的的对象](https://en.wikipedia.org/wiki/Serialization)。
+- `revalidate` - 一个**可选**的配置，以秒为单位，可以在此数秒后重新你页面。更多关于[增量静态再生](#incremental-static-regeneration)。
 
-> **Note**: You can import modules in top-level scope for use in `getStaticProps`.
-> Imports used in `getStaticProps` will not be bundled for the client-side, as [explained below](#write-server-side-code-directly).
+> **注意**: 你可以在顶级作用域中导入模块，以便在 `getStaticProps` 中使用。
+> `getStaticProps` 中使用的导入将不仅仅是客户端模块，[说明如下](#write-server-side-code-directly)。
 
-### Simple Example
+### 简单的例子
 
-Here’s an example which uses `getStaticProps` to fetch a list of blog posts from a CMS (content management system). This example is also in the [Pages documentation](/docs/basic-features/pages.md).
+下面是一个使用 `getStaticProps` 从 CMS（内容管理系统）中获取博客文章列表的例子。这个例子也出现在[页面文档](/docs/basic-features/pages.md)中。
 
 ```jsx
 // posts will be populated at build time by getStaticProps()
@@ -99,18 +99,18 @@ export async function getStaticProps() {
 export default Blog
 ```
 
-### When should I use `getStaticProps`?
+### 我什么时候需要用 `getStaticProps` 呢?
 
-You should use `getStaticProps` if:
+你应该使用 `getStaticProps` ，如果:
 
-- The data required to render the page is available at build time ahead of a user’s request.
-- The data comes from headless CMS.
-- The data can be publicly cached (not user-specific).
-- The page must be pre-rendered (for SEO) and be very fast — `getStaticProps` generates HTML and JSON files, both of which can be cached by a CDN for performance.
+- 渲染页面所需的数据可在构建时提前于用户的请求提供。
+- 数据来自 headless CMS。
+- 资料可以公开缓存(并非特定于使用者)。
+- 页面必须预渲染（对于SEO）并且速度非常快 - `getStaticProps` 你HTML和JSON文件，这两个文件都可以通过 CDN 缓存来提升性能。
 
-### TypeScript: Use `GetStaticProps`
+### TypeScript: 使用 `GetStaticProps`
 
-For TypeScript, you can use the `GetStaticProps` type from `next`:
+在 TypeScript 中, 你可以使用从 `next` 中导出的 `GetStaticProps` 类型:
 
 ```ts
 import { GetStaticProps } from 'next'
@@ -120,7 +120,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 }
 ```
 
-If you want to get inferred typings for your props, you can use `InferGetStaticPropsType<typeof getStaticProps>`, like this:
+如果你想得到你的属性的推断类型，你可以使用 `InferGetStaticPropsType<typeof getStaticProps>`，如下所示:
 
 ```tsx
 import { InferGetStaticPropsType } from 'next'
@@ -148,22 +148,22 @@ function Blog({ posts }: InferGetStaticPropsType<typeof getStaticProps>) {
 export default Blog
 ```
 
-### Incremental Static Regeneration
+### 增量静态再生
 
-> This feature was introduced in [Next.js 9.5](https://nextjs.org/blog/next-9-5#stable-incremental-static-regeneration) and up. If you’re using older versions of Next.js, please upgrade before trying Incremental Static Regeneration.
+> 这个特性是在 [Next.js9.5](https://nextjs.org/blog/next-9-5#stable-incremental-static-regeneration) 及更高版本中引入的。如果你使用的是旧版本的 Next.js，请在尝试增量静态再生之前进行升级。
 
 <details open>
-  <summary><b>Examples</b></summary>
+  <summary><b>示例</b></summary>
   <ul>
     <li><a href="https://reactions-demo.now.sh/">Static Reactions Demo</a></li>
   </ul>
 </details>
 
-With [`getStaticProps`](#getstaticprops-static-generation) you don't have to stop relying in dynamic content, as **static content can also be dynamic**. Incremental Static Regeneration allows you to update _existing_ pages by re-rendering them in the background as traffic comes in.
+使用 [`getStaticProps`](#getstaticprops-static-generation)，你不必停止依赖动态内容，**静态内容也可以是动态的**。增量静态再生允许你通过在后台重新渲染的方式更新_现有的_网页。
 
-Inspired by [stale-while-revalidate](https://tools.ietf.org/html/rfc5861), background regeneration ensures traffic is served uninterruptedly, always from static storage, and the newly built page is pushed only after it's done generating.
+受[stale-while-revalidate](https://tools.ietf.org/html/rfc5861)的启发，后台恢复可以确保不间断地从静态存储中获得流量，新构建的页面只有在你完成后才能推送。
 
-Consider our previous [`getStaticProps` example](#simple-example), but now with regeneration enabled:
+参考我们以前的 [`getStaticProps` example](#simple-example)，但现在启用了再生：
 
 ```jsx
 function Blog({ posts }) {
@@ -197,27 +197,27 @@ export async function getStaticProps() {
 export default Blog
 ```
 
-Now the list of blog posts will be revalidated once per second; if you add a new blog post it will be available almost immediately, without having to re-build your app or make a new deployment.
+现在博客文章列表将每秒重新验证一次；如果你添加一个新的博客文章，它几乎马上就可以使用，而不必重新构建应用程序或进行新的部署。
 
-This works perfectly with [`fallback: true`](#fallback-true). Because now you can have a list of posts that's always up to date with the latest posts, and have a [blog post page](#fallback-pages) that generates blog posts on-demand, no matter how many posts you add or update.
+这个方法与 [`fallback: true`](#fallback-true) 完全匹配。因为现在你可以有一个最新的文章列表，并且有一个[博客文章页面](#fallback-pages)，可以根据需要你博客文章，无论你添加或更新了多少文章。
 
-#### Static content at scale
+#### 规划静态内容
 
-Unlike traditional SSR, [Incremental Static Regeneration](#incremental-static-regeneration) ensures you retain the benefits of static:
+与传统的 SSR 不同, [增量静态再生](#incremental-static-regeneration)确保你保留静态的好处:
 
-- No spikes in latency. Pages are served consistently fast
-- Pages never go offline. If the background page re-generation fails, the old page remains unaltered
-- Low database and backend load. Pages are re-computed at most once concurrently
+- 没有延迟高峰。页面提供的速度始终很快
+- 页面永远不会脱机。如果背景页重新你失败，旧页将保持不变
+- 低数据库和后端负载。页面最多同时重新计算一次
 
-### Reading files: Use `process.cwd()`
+### 读取文件: 使用 `process.cwd()`
 
-Files can be read directly from the filesystem in `getStaticProps`.
+可以直接从 `getStaticProps` 中读取文件。
 
-In order to do so you have to get the full path to a file.
+为了做到这一点，你必须获得一个文件的完整路径。
 
-Since Next.js compiles your code into a separate directory you can't use `__dirname` as the path it will return will be different from the pages directory.
+因为 Next.js 将你的代码编译到一个单独的目录中，所以你不能使用 `__dirname` 作为路径，它将返回的路径与页面目录不同。
 
-Instead you can use `process.cwd()` which gives you the directory where Next.js is being executed.
+相反，你可以使用 `process.cwd()`，它为你提供了执行 Next.js 的目录。
 
 ```jsx
 import fs from 'fs'
@@ -268,47 +268,47 @@ export async function getStaticProps() {
 export default Blog
 ```
 
-### Technical details
+### 技术技巧
 
-#### Only runs at build time
+#### 仅在构建时运行
 
-Because `getStaticProps` runs at build time, it does **not** receive data that’s only available during request time, such as query parameters or HTTP headers as it generates static HTML.
+因为 `getStaticProps` 在构建时运行，所以它在你静态的 HTML时，**不会**接收仅在请求时可用的数据，如查询参数或 HTTP headers。
 
-#### Write server-side code directly
+#### 直接编写服务端代码
 
-Note that `getStaticProps` runs only on the server-side. It will never be run on the client-side. It won’t even be included in the JS bundle for the browser. That means you can write code such as direct database queries without them being sent to browsers. You should not fetch an **API route** from `getStaticProps` — instead, you can write the server-side code directly in `getStaticProps`.
+请注意，`getStaticProps`仅在**服务器端运行**。它永远不会在客户端运行。它甚至不会包含在浏览器的 JS 包中。这意味着你可以编写直接数据库查询之类的代码，而不必将它们发送到浏览器。你不应该从 `getStaticProps` 获取 **API route**。 — 相反，你可以直接在 `getStaticProps` 中编写服务器端代码。
 
-You can use [this tool](https://next-code-elimination.now.sh/) to verify what Next.js eliminates from the client-side bundle.
+可以使用 [这个工具](https://next-code-elimination.now.sh/)来验证 Next.js 从客户端编译包中消除了什么。
 
-#### Statically Generates both HTML and JSON
+#### 静态生成 HTML 和 JSONS
 
-When a page with `getStaticProps` is pre-rendered at build time, in addition to the page HTML file, Next.js generates a JSON file holding the result of running `getStaticProps`.
+当构建时，除了页面之外，在构建时预渲染带有 `getStaticProps` 的页面 HTML 文件，Next.js 还会生成一个保存运行 `getStaticProps` 的结果JSON文件。
 
-This JSON file will be used in client-side routing through `next/link` ([documentation](/docs/api-reference/next/link.md)) or `next/router` ([documentation](/docs/api-reference/next/router.md)). When you navigate to a page that’s pre-rendered using `getStaticProps`, Next.js fetches this JSON file (pre-computed at build time) and uses it as the props for the page component. This means that client-side page transitions will **not** call `getStaticProps` as only the exported JSON is used.
+这个 JSON 文件将通过 `next/link`（[文档](/docs/api-reference/next/link.md)）或 `next/router`（[文档](/docs/api-reference/next/router.md)）在客户端路由中使用。当你导航到一个使用 `getStaticProps` 预渲染的页面时，Next.js将获取这个 JSON 文件（在构建时预先计算），并将其用作页面组件的属性。这意味着客户端页面转换将仅使用导出的 JSON 而不调用 `getStaticProps`。
 
-#### Only allowed in a page
+#### 只允许出现在页面组件
 
-`getStaticProps` can only be exported from a **page**. You can’t export it from non-page files.
+`getStaticProps` 只能从**页面**导出，不能从非页面文件导出。
 
-One of the reasons for this restriction is that React needs to have all the required data before the page is rendered.
+这种限制的原因之一是 React 需要在渲染页面之前拥有所有必需的数据。
 
-Also, you must use `export async function getStaticProps() {}` — it will **not** work if you add `getStaticProps` as a property of the page component.
+此外，你必须使用 `export async function getStaticProps() {}` - 如果你把 `getStaticProps` 当作页面的属性，那他将**失效**。
 
-#### Runs on every request in development
+#### 在开发环境中，会在每个请求是执行
 
-In development (`next dev`), `getStaticProps` will be called on every request.
+在开发过程中 (`next dev`)，每次请求都会调用`getStaticProps`。
 
-#### Preview Mode
+#### 预览模式
 
-In some cases, you might want to temporarily bypass Static Generation and render the page at **request time** instead of build time. For example, you might be using a headless CMS and want to preview drafts before they're published.
+在某些情况下，你可能希望暂时绕过静态生成，并在**请求时渲染页面**而不是构建时。例如，你可能正在使用一个 headless CMS，并希望在草稿发布之前预览它们。
 
-This use case is supported by Next.js by the feature called **Preview Mode**. Learn more on the [Preview Mode documentation](/docs/advanced-features/preview-mode.md).
+这个场景 Next.js 支持，这个特性称为**预览模式**.了解更多关于[预览模式文档](/docs/advanced-features/preview-mode.md)的信息。
 
-## `getStaticPaths` (Static Generation)
+## `getStaticPaths` (静态生成)
 
-If a page has dynamic routes ([documentation](/docs/routing/dynamic-routes.md)) and uses `getStaticProps` it needs to define a list of paths that have to be rendered to HTML at build time.
+如果一个页面有动态路由（[文档](/docs/routing/dynamic-routes.md)）并且使用了 `getStaticProps`，它需要定义一个路径列表，这些路径在构建时间必须提供，用于渲染 HTML 。
 
-If you export an `async` function called `getStaticPaths` from a page that uses dynamic routes, Next.js will statically pre-render all the paths specified by `getStaticPaths`.
+如果从使用动态路由的页面导出一个名为`getStaticPaths`的 `async` 函数，则 Next.js 将静态预渲染由 `getStaticPaths` 指定的所有路径。
 
 ```jsx
 export async function getStaticPaths() {
@@ -321,9 +321,9 @@ export async function getStaticPaths() {
 }
 ```
 
-#### The `paths` key (required)
+#### `paths` 参数 (必须)
 
-The `paths` key determines which paths will be pre-rendered. For example, suppose that you have a page that uses dynamic routes named `pages/posts/[id].js`. If you export `getStaticPaths` from this page and return the following for `paths`:
+`paths` 属性决定了哪些路径将被预渲染。例如，假设你有一个使用名为 `pages/posts/[id].js` 的动态路由的页面。如果你从这个页面导出 `getStaticPaths` ，并返回如下所示的`paths`:
 
 ```js
 return {
@@ -335,23 +335,23 @@ return {
 }
 ```
 
-Then Next.js will statically generate `posts/1` and `posts/2` at build time using the page component in `pages/posts/[id].js`.
+然后， Next.js 会在构建时，使用`pages/posts/[id].js` 中的页面组件静态生成 `posts/1` 和 `posts/2`。
 
-Note that the value for each `params` must match the parameters used in the page name:
+注意，每个 `params` 的值必须与页面名称中使用的参数匹配:
 
-- If the page name is `pages/posts/[postId]/[commentId]`, then `params` should contain `postId` and `commentId`.
-- If the page name uses catch-all routes, for example `pages/[...slug]`, then `params` should contain `slug` which is an array. For example, if this array is `['foo', 'bar']`, then Next.js will statically generate the page at `/foo/bar`.
-- If the page uses an optional catch-all route, supply `null`, `[]`, `undefined` or `false` to render the rootmost route. For example, if you supply `slug: false` for `pages/[[...slug]]`, Next.js will statically generate the page `/`.
+- 如果页面名称是 `pages/posts/[postId]/[commentId]`，则 `params` 必须包含 `postId` 和 `commentId`。
+- 如果页名使用任意的路由，例如 `pages/[...slug]`，则 `params` 应包含一个数组`slug`。例如，如果这个数组是`['foo', 'bar']`，那么 Next.js 会在 `/foo/bar` 上静态生成页面。
+- 如果页面使用任意的路由，支持提供`null`、 `[]`、 `undefined` 或者 `false`来渲染最根路线。例如，如果在 `pages/[[...slug]]` 指定了 `slug: false` ，则 Next.js 将静态生成页面 `/`。
 
-#### The `fallback` key (required)
+#### `fallback` 参数 (必须)
 
-The object returned by `getStaticPaths` must contain a boolean `fallback` key.
+由 `getStaticPaths` 返回的对象必须包含一个布尔值类型的参数， `fallback`。
 
 #### `fallback: false`
 
-If `fallback` is `false`, then any paths not returned by `getStaticPaths` will result in a **404 page**. You can do this if you have a small number of paths to pre-render - so they are all statically generated during build time. It’s also useful when the new pages are not added often. If you add more items to the data source and need to render the new pages, you’d need to run the build again.
+如果`fallback` 是 `false`，那么`getStaticPaths` 未返回的任何路径都将产生一个**404页面**。如果有少量的路径可以进行预渲染，则可以这样做 - 因为它们都是在构建时静态生成的。当不经常添加新页面时，它也很有用。如果向数据源添加更多内容并需要渲染新页面，则需要再次运行构建。
 
-Here’s an example which pre-renders one blog post per page called `pages/posts/[id].js`. The list of blog posts will be fetched from a CMS and returned by `getStaticPaths` . Then, for each page, it fetches the post data from a CMS using `getStaticProps`. This example is also in the [Pages documentation](/docs/basic-features/pages.md).
+下面这个示例，是预渲染一个叫做 `pages/posts/[id].js` 的博客文章。博客文章列表将通过 `getStaticPaths` 从 CMS 中获取。然后，对于每个页面，它使用 `getStaticProps` 从 CMS 中获取文章数据。这个例子也出现在[页面文档](/docs/basic-features/pages.md)中。
 
 ```jsx
 // pages/posts/[id].js
@@ -393,30 +393,29 @@ export default Post
 #### `fallback: true`
 
 <details>
-  <summary><b>Examples</b></summary>
+  <summary><b>示例</b></summary>
   <ul>
     <li><a href="https://static-tweet.now.sh">Static generation of a large number of pages</a></li>
   </ul>
 </details>
 
-If `fallback` is `true`, then the behavior of `getStaticProps` changes:
+如果 `fallback` 是 `true`，那么 `getStaticPaths` 的行为就会改变:
 
-- The paths returned from `getStaticPaths` will be rendered to HTML at build time.
-- The paths that have not been generated at build time will **not** result in a 404 page. Instead, Next.js will serve a “fallback” version of the page on the first request to such a path (see [“Fallback pages”](#fallback-pages) below for details).
-- In the background, Next.js will statically generate the requested path HTML and JSON. This includes running `getStaticProps`.
-- When that’s done, the browser receives the JSON for the generated path. This will be used to automatically render the page with the required props. From the user’s perspective, the page will be swapped from the fallback page to the full page.
-- At the same time, Next.js adds this path to the list of pre-rendered pages. Subsequent requests to the same path will serve the generated page, just like other pages pre-rendered at build time.
+- 在构建时间从 `getStaticPaths` 返回的路径将被渲染到 HTML。
+- 在构建时未生成的路径**不会**导致404页。相反，Next.js 将在第一个请求中提供该页面的 “fallback” 版本。（有关详细信息，请参阅下面的[“回退页面”](#fallback-pages)）
+- 完成后，浏览器就会收到生成路径的 JSON。这将被用来自动渲染页面所需的属性。从用户的角度来看，页面将从后备页面更新到整个页面。
+- 同时，Next.js 将此路径添加到预渲染的页面列表中。生成的页面将服务于对同一路径的后续请求，就像构建时预渲染的其他页面一样。
 
-> `fallback: true` is not supported when using [`next export`](/docs/advanced-features/static-html-export.md).
+> 使用 [`next export`](/docs/advanced-features/static-html-export.md)时不支持 `fallback: true`。
 
-#### Fallback pages
+#### Fallback 页面
 
-In the “fallback” version of a page:
+页面的“fallback”版本:
 
-- The page’s props will be empty.
-- Using the [router](/docs/api-reference/next/router.md), you can detect if the fallback is being rendered, `router.isFallback` will be `true`.
+- 页面的属性将是空的。
+- 使用[路由](/docs/api-reference/next/router.md)，你可以检测回退是否被渲染，`router.isFallback` 将是 `true`。
 
-Here’s an example that uses `isFallback`:
+下面是一个使用 `isFallback` 的例子:
 
 ```jsx
 // pages/posts/[id].js
@@ -464,23 +463,23 @@ export async function getStaticProps({ params }) {
 export default Post
 ```
 
-#### When is `fallback: true` useful?
+#### 当设置 `fallback: true` 真的有用吗?
 
-`fallback: true` is useful if your app has a very large number of static pages that depend on data (think: a very large e-commerce site). You want to pre-render all product pages, but then your builds would take forever.
+如果你的应用程序有大量依赖于数据的静态页面（想想：一个非常大的电子商务站点），那么 `fallback: true` 非常有用。你希望预渲染所有产品页面，但这样你的构建将永远无法完成。
 
-Instead, you may statically generate a small subset of pages and use `fallback: true` for the rest. When someone requests a page that’s not generated yet, the user will see the page with a loading indicator. Shortly after, `getStaticProps` finishes and the page will be rendered with the requested data. From now on, everyone who requests the same page will get the statically pre-rendered page.
+相反，你可以静态地生成一个页面子集，并对其余页面使用 `fallback: true`。当某个用户请求一个还没有生成的页面时，将看到带有加载指示器的页面。之后不久，`getStaticProps` 完成，页面将渲染请求的数据。从现在开始，每个请求相同页面的任意用户都将获得静态预渲染页面。
 
-This ensures that users always have a fast experience while preserving fast builds and the benefits of Static Generation.
+这确保了用户在保持快速构建和静态生成的好处的同时始终拥有快速的体验。
 
-`fallback: true` will not _update_ generated pages, for that take a look at [Incremental Static Regeneration](#incremental-static-regeneration).
+`fallback: true`不会_更新_生成的页面，请查看[增量静态再生](#incremental-static-regeneration)。
 
-### When should I use `getStaticPaths`?
+### 什么时候应该使用 `getStaticPaths`?
 
-You should use `getStaticPaths` if you’re statically pre-rendering pages that use dynamic routes.
+如果是使用动态路由的静态预渲染页面，则应该使用 `getStaticPaths` 。
 
-### TypeScript: Use `GetStaticPaths`
+### TypeScript: 使用 `GetStaticPaths`
 
-For TypeScript, you can use the `GetStaticPaths` type from `next`:
+在 TypeScript 中, 你可以使用从 `next` 中导出的 `GetStaticPaths` 类型:
 
 ```ts
 import { GetStaticPaths } from 'next'
@@ -490,31 +489,31 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 ```
 
-### Technical details
+### 技术技巧
 
-#### Use together with `getStaticProps`
+#### 与 `getStaticProps` 一起使用
 
-When you use `getStaticProps` on a page with dynamic route parameters, you must use `getStaticPaths`.
+在具有动态路由参数的页面上使用 `getStaticProps` 时，必须使用 `getStaticPaths`。
 
-You cannot use `getStaticPaths` with `getServerSideProps`.
+不能将 `getStaticPaths` 和 `getServerSideProps` 一起使用。
 
-#### Only runs at build time on server-side
+#### 仅在服务端构建时运行
 
-`getStaticPaths` only runs at build time on server-side.
+`getStaticPaths` 仅在服务端的构建时运行。
 
-#### Only allowed in a page
+#### 只允许出现在页面组件
 
-`getStaticPaths` can only be exported from a **page**. You can’t export it from non-page files.
+`getStaticPaths` 只能从**页面**导出，不能从非页面文件导出。
 
-Also, you must use `export async function getStaticPaths() {}` — it will **not** work if you add `getStaticPaths` as a property of the page component.
+此外，你必须使用 `export async function getStaticPaths() {}` - 如果你把 `getStaticPaths` 当作页面的属性，那他将**失效**。
 
-#### Runs on every request in development
+#### 在开发环境中，会在每个请求是执行
 
-In development (`next dev`), `getStaticPaths` will be called on every request.
+在开发过程中 (`next dev`)，每次请求都会调用 `getStaticPaths`。
 
-## `getServerSideProps` (Server-side Rendering)
+## `getServerSideProps` (服务端渲染)
 
-If you export an `async` function called `getServerSideProps` from a page, Next.js will pre-render this page on each request using the data returned by `getServerSideProps`.
+如果从一个页面导出一个名为 `getServerSideProps` 的 `async` 函数，那么 Next.js 将使用由 `getServerSideProps` 返回的数据在每个请求上预渲染这个页面。
 
 ```js
 export async function getServerSideProps(context) {
@@ -524,21 +523,21 @@ export async function getServerSideProps(context) {
 }
 ```
 
-The `context` parameter is an object containing the following keys:
+`context`参数是一个包含以下键的对象:
 
-- `params`: If this page uses a dynamic route, `params` contains the route parameters. If the page name is `[id].js` , then `params` will look like `{ id: ... }`. To learn more, take a look at the [Dynamic Routing documentation](/docs/routing/dynamic-routes.md).
-- `req`: [The HTTP IncomingMessage object](https://nodejs.org/api/http.html#http_class_http_incomingmessage).
-- `res`: [The HTTP response object](https://nodejs.org/api/http.html#http_class_http_serverresponse).
-- `query`: The query string.
-- `preview`: `preview` is `true` if the page is in the preview mode and `false` otherwise. See the [Preview Mode documentation](/docs/advanced-features/preview-mode.md).
-- `previewData`: The preview data set by `setPreviewData`. See the [Preview Mode documentation](/docs/advanced-features/preview-mode.md).
+- `params`: 包含使用动态路由的页面的路由参数。 如果页面名称为 `[id].js` ，那么 `params` 将看起来像 `{ id: ... }`。请查看[动态路由文档](/docs/routing/dynamic-routes.md)。
+- `req`: [一个 HTTP IncomingMessage 对象](https://nodejs.org/api/http.html#http_class_http_incomingmessage).
+- `res`: [一个 HTTP response 对象](https://nodejs.org/api/http.html#http_class_http_serverresponse).
+- `query`: 查询字符串。
+- `preview`: 如果页面是预览模式，则`preview`是`true`，否则为`false`。参见[预览模式文档](/docs/advanced-features/preview-mode.md)。
+- `previewData`: 包含由 `setPreviewData` 设置的预览数据。参见[预览模式文档](/docs/advanced-features/preview-mode.md)。
 
-> **Note**: You can import modules in top-level scope for use in `getServerSideProps`.
-> Imports used in `getServerSideProps` will not be bundled for the client-side, as [explained below](#only-runs-on-server-side).
+> **注意**: 你可以在顶级作用域中导入模块，以便在 `getServerSideProps` 中使用。
+> `getServerSideProps` 中使用的导入将不仅仅是客户端模块， [说明如下](#only-runs-on-server-side)。
 
-### Simple example
+### 简单的例子
 
-Here’s an example which uses `getServerSideProps` to fetch data at request time and pre-renders it. This example is also in the [Pages documentation](/docs/basic-features/pages.md).
+下面是一个在请求时使用 `getServerSideProps` 获取数据并预渲染它的示例。这个例子也出现在[页面文档](/docs/basic-features/pages.md)中。
 
 ```jsx
 function Page({ data }) {
@@ -558,15 +557,15 @@ export async function getServerSideProps() {
 export default Page
 ```
 
-### When should I use `getServerSideProps`?
+### 什么时候应该使用 `getServerSideProps`?
 
-You should use `getServerSideProps` only if you need to pre-render a page whose data must be fetched at request time. Time to first byte (TTFB) will be slower than `getStaticProps` because the server must compute the result on every request, and the result cannot be cached by a CDN without extra configuration.
+只有当你需要预呈现一个必须在请求时获取数据的页面时，你才应该使用`getServerSideProps`。到第一个字节的时间(TTFB)会比 `getStaticProps` 慢，因为服务器必须计算每个请求的结果，而且如果没有额外的配置，结果不能被CDN缓存。
 
-If you don’t need to pre-render the data, then you should consider fetching data on the client side. [Click here to learn more](#fetching-data-on-the-client-side).
+如果不需要预渲染数据，那么应该考虑在客户端获取数据。[点击这里了解更多](#fetching-data-on-the-client-side)。
 
-### TypeScript: Use `GetServerSideProps`
+### TypeScript: 使用 `GetServerSideProps`
 
-For TypeScript, you can use the `GetServerSideProps` type from `next`:
+在 TypeScript 中，你可以是用从 `next` 导出的 `GetServerSideProps` 类型:
 
 ```ts
 import { GetServerSideProps } from 'next'
@@ -576,7 +575,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 }
 ```
 
-If you want to get inferred typings for your props, you can use `InferGetServerSidePropsType<typeof getServerSideProps>`, like this:
+如果你想得到你的属性的推断类型，你可以使用 `InferGetServerSidePropsType<typeof getServerSideProps>`，如下所示:
 
 ```tsx
 import { InferGetServerSidePropsType } from 'next'
@@ -601,35 +600,35 @@ function Page({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) 
 export default Page
 ```
 
-### Technical details
+### 开发技巧
 
-#### Only runs on server-side
+#### 仅在服务端运行
 
-`getServerSideProps` only runs on server-side and never runs on the browser. If a page uses `getServerSideProps` , then:
+`getServerSideProps` 仅在服务器端运行，从不在浏览器上运行。如果一个页面使用 `getServerSideProps`，那么:
 
-- When you request this page directly, `getServerSideProps` runs at the request time, and this page will be pre-rendered with the returned props.
-- When you request this page on client-side page transitions through `next/link` ([documentation](/docs/api-reference/next/link.md)) or `next/router` ([documentation](/docs/api-reference/next/router.md)), Next.js sends an API request to the server, which runs `getServerSideProps`. It’ll return JSON that contains the result of running `getServerSideProps`, and the JSON will be used to render the page. All this work will be handled automatically by Next.js, so you don’t need to do anything extra as long as you have `getServerSideProps` defined.
+- 当您直接请求此页面时，`getServerSideProps` 在请求时运行，此页面将使用返回的属性进行预渲染。
+- 当您通过`next/link` ([documentation](/docs/api-reference/next/link.md)) 或者 `next/router` ([documentation](/docs/api-reference/next/router.md)) 在客户端做页面跳转时，Next.js 向服务器发送一个 API 请求，在服务器运行 `getServerSideProps`。它将返回包含运行 `getServerSideProps` 结果的 JSON 数据，而这些 JSON 数据将用于渲染页面。所有这些工作都将由 Next.js 自动处理，所以只要定义了 `getServerSideProps` ，就不需要做任何额外的工作。
 
-You can use [this tool](https://next-code-elimination.now.sh/) to verify what Next.js eliminates from the client-side bundle.
+可以使用 [这个工具](https://next-code-elimination.now.sh/)来验证 Next.js 从客户端编译包中消除了什么。
 
-#### Only allowed in a page
+#### 只允许出现在页面组件
 
-`getServerSideProps` can only be exported from a **page**. You can’t export it from non-page files.
+`getServerSideProps` 只能从**页面**导出，不能从非页面文件导出。
 
-Also, you must use `export async function getServerSideProps() {}` — it will **not** work if you add `getServerSideProps` as a property of the page component.
+此外，你必须使用 `export async function getServerSideProps() {}` - 如果你把 `getServerSideProps` 当作页面的属性，那他将**失效**。
 
-## Fetching data on the client side
+## 在客户端获取数据
 
-If your page contains frequently updating data, and you don’t need to pre-render the data, you can fetch the data on the client side. An example of this is user-specific data. Here’s how it works:
+如果页面包含频繁更新的数据，并且不需要预渲染数据，可以在客户端获取数据。这方面的一个例子是针对特定用户的数据。它是这样运作的:
 
-- First, immediately show the page without data. Parts of the page can be pre-rendered using Static Generation. You can show loading states for missing data.
-- Then, fetch the data on the client side and display it when ready.
+- 首先，立即显示没有数据的页面。部分页面可以使用静态生成进行预渲染。您可以显示丢失数据的加载状态。
+- 然后，在客户端获取数据并在准备好时显示它。
 
-This approach works well for user dashboard pages, for example. Because a dashboard is a private, user-specific page, SEO is not relevant and the page doesn’t need to be pre-rendered. The data is frequently updated, which requires request-time data fetching.
+例如，这种方法适用于用户仪表板页面。因为仪表板是一个私有的、特定于用户的页面，所以是和 SEO 不相关的，页面不需要预渲染。数据经常更新，这需要请求时数据获取。
 
 ### SWR
 
-The team behind Next.js has created a React hook for data fetching called [**SWR**](https://swr.now.sh/). We highly recommend it if you’re fetching data on the client side. It handles caching, revalidation, focus tracking, refetching on interval, and more. And you can use it like so:
+Next.js 的团队创建了一个用于数据获取的 React hook，称为[**SWR**](https://swr.now.sh/)。我们强烈建议你在客户端获取数据是使用它。它处理缓存、重新验证、焦点跟踪、间隔重构等等。你可以这样使用:
 
 ```jsx
 import useSWR from 'swr'
@@ -643,29 +642,29 @@ function Profile() {
 }
 ```
 
-[Check out the SWR documentation to learn more](https://swr.now.sh/).
+[了解更多 SWR 信息](https://swr.now.sh/).
 
-## Learn more
+## 了解更多
 
-We recommend you to read the following sections next:
+我们建议你接下来阅读以下章节:
 
 <div class="card">
   <a href="/docs/advanced-features/preview-mode.md">
-    <b>Preview Mode:</b>
-    <small>Learn more about the preview mode in Next.js.</small>
+    <b>预览模式:</b>
+    <small>了解更多 Next.js 中有关预览模式的信息。</small>
   </a>
 </div>
 
 <div class="card">
   <a href="/docs/routing/introduction.md">
-    <b>Routing:</b>
-    <small>Learn more about routing in Next.js.</small>
+    <b>路由:</b>
+    <small>了解更多 Next.js 中有关路由的信息。</small>
   </a>
 </div>
 
 <div class="card">
   <a href="/docs/basic-features/typescript.md#pages">
     <b>TypeScript:</b>
-    <small>Add TypeScript to your pages.</small>
+    <small>在你的页面中添加 TypeScript。</small>
   </a>
 </div>
