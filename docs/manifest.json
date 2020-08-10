@@ -1,32 +1,32 @@
 {
   "routes": [
     {
-      "title": "Documentation",
+      "title": "文档",
       "heading": true,
       "routes": [
-        { "title": "Getting Started", "path": "/docs/getting-started.md" },
+        { "title": "快速入门", "path": "/docs/getting-started.md" },
         {
-          "title": "Basic Features",
+          "title": "基础特性",
           "open": true,
           "routes": [
             {
-              "title": "Pages",
+              "title": "页面",
               "path": "/docs/basic-features/pages.md"
             },
             {
-              "title": "Data fetching",
+              "title": "数据获取",
               "path": "/docs/basic-features/data-fetching.md"
             },
             {
-              "title": "Built-in CSS Support",
+              "title": "内置 CSS 支持",
               "path": "/docs/basic-features/built-in-css-support.md"
             },
             {
-              "title": "Fast Refresh",
+              "title": "快速刷新",
               "path": "/docs/basic-features/fast-refresh.md"
             },
             {
-              "title": "Static File Serving",
+              "title": "静态文件服务",
               "path": "/docs/basic-features/static-file-serving.md"
             },
             {
@@ -34,101 +34,101 @@
               "path": "/docs/basic-features/typescript.md"
             },
             {
-              "title": "Environment Variables",
+              "title": "环境变量",
               "path": "/docs/basic-features/environment-variables.md"
             },
             {
-              "title": "Supported Browsers and Features",
+              "title": "浏览器支持",
               "path": "/docs/basic-features/supported-browsers-features.md"
             }
           ]
         },
         {
-          "title": "Routing",
+          "title": "路由",
           "routes": [
             {
-              "title": "Introduction",
+              "title": "简介",
               "path": "/docs/routing/introduction.md"
             },
             {
-              "title": "Dynamic Routes",
+              "title": "动态路由",
               "path": "/docs/routing/dynamic-routes.md"
             },
             {
-              "title": "Imperatively",
+              "title": "页面导航",
               "path": "/docs/routing/imperatively.md"
             },
             {
-              "title": "Shallow Routing",
+              "title": "浅路由",
               "path": "/docs/routing/shallow-routing.md"
             }
           ]
         },
         {
-          "title": "API Routes",
+          "title": "API 路由",
           "routes": [
             {
-              "title": "Introduction",
+              "title": "简介",
               "path": "/docs/api-routes/introduction.md"
             },
             {
-              "title": "Dynamic API Routes",
+              "title": "动态 API 路由",
               "path": "/docs/api-routes/dynamic-api-routes.md"
             },
             {
-              "title": "API Middlewares",
+              "title": "API 中间件",
               "path": "/docs/api-routes/api-middlewares.md"
             },
             {
-              "title": "Response Helpers",
+              "title": "响应助手",
               "path": "/docs/api-routes/response-helpers.md"
             }
           ]
         },
         {
-          "title": "Deployment",
+          "title": "部署",
           "path": "/docs/deployment.md"
         },
         {
-          "title": "Advanced Features",
+          "title": "高级特性",
           "routes": [
             {
-              "title": "Preview Mode",
+              "title": "预览模式",
               "path": "/docs/advanced-features/preview-mode.md"
             },
             {
-              "title": "Dynamic Import",
+              "title": "动态导入",
               "path": "/docs/advanced-features/dynamic-import.md"
             },
             {
-              "title": "Automatic Static Optimization",
+              "title": "自动静态文件优化",
               "path": "/docs/advanced-features/automatic-static-optimization.md"
             },
             {
-              "title": "Static HTML Export",
+              "title": "导出静态 HTML",
               "path": "/docs/advanced-features/static-html-export.md"
             },
             {
-              "title": "Absolute Imports and Module Path Aliases",
+              "title": "绝对导入和模块路径别名",
               "path": "/docs/advanced-features/module-path-aliases.md"
             },
             {
-              "title": "AMP Support",
+              "title": "AMP 支持",
               "routes": [
                 {
-                  "title": "Introduction",
+                  "title": "简介",
                   "path": "/docs/advanced-features/amp-support/introduction.md"
                 },
                 {
-                  "title": "Adding AMP Components",
+                  "title": "添加 AMP 组件",
                   "path": "/docs/advanced-features/amp-support/adding-amp-components.md"
                 },
                 {
-                  "title": "AMP Validation",
+                  "title": "AMP 验证",
                   "path": "/docs/advanced-features/amp-support/amp-validation.md"
                 },
                 {
-                  "title": "AMP in Static HTML export",
+                  "title": "在导出静态 HTML 中的 AMP",
                   "path": "/docs/advanced-features/amp-support/amp-in-static-html-export.md"
                 },
                 {
@@ -138,56 +138,56 @@
               ]
             },
             {
-              "title": "Customizing Babel Config",
+              "title": "自定义 Babel 配置",
               "path": "/docs/advanced-features/customizing-babel-config.md"
             },
             {
-              "title": "Customizing PostCSS Config",
+              "title": "自定义 PostCSS 配置",
               "path": "/docs/advanced-features/customizing-postcss-config.md"
             },
             {
-              "title": "Custom Server",
+              "title": "自定义服务器",
               "path": "/docs/advanced-features/custom-server.md"
             },
             {
-              "title": "Custom `App`",
+              "title": "自定义 `App`",
               "path": "/docs/advanced-features/custom-app.md"
             },
             {
-              "title": "Custom `Document`",
+              "title": "自定义 `Document`",
               "path": "/docs/advanced-features/custom-document.md"
             },
             {
-              "title": "Custom Error Page",
+              "title": "自定义错误页面",
               "path": "/docs/advanced-features/custom-error-page.md"
             },
             {
-              "title": "`src` Directory",
+              "title": "`src` 目录",
               "path": "/docs/advanced-features/src-directory.md"
             },
             {
-              "title": "Multi Zones",
+              "title": "多区域",
               "path": "/docs/advanced-features/multi-zones.md"
             },
             {
-              "title": "Measuring performance",
+              "title": "性能分析",
               "path": "/docs/advanced-features/measuring-performance.md"
             },
             {
-              "title": "Debugging",
+              "title": "开发调试",
               "path": "/docs/advanced-features/debugging.md"
             }
           ]
         },
         {
-          "title": "Upgrade Guide",
+          "title": "升级指南",
           "path": "/docs/upgrading.md"
         },
         { "title": "FAQ", "path": "/docs/faq.md" }
       ]
     },
     {
-      "title": "API Reference",
+      "title": "API 手册",
       "heading": true,
       "routes": [
         { "title": "CLI", "path": "/docs/api-reference/cli.md" },
@@ -208,7 +208,7 @@
           "path": "/docs/api-reference/next/amp.md"
         },
         {
-          "title": "Data Fetching",
+          "title": "数据获取",
           "routes": [
             {
               "title": "getInitialProps",
@@ -220,79 +220,79 @@
           "title": "next.config.js",
           "routes": [
             {
-              "title": "Introduction",
+              "title": "简介",
               "path": "/docs/api-reference/next.config.js/introduction.md"
             },
             {
-              "title": "Environment Variables",
+              "title": "环境变量",
               "path": "/docs/api-reference/next.config.js/environment-variables.md"
             },
             {
-              "title": "Base Path",
+              "title": "基本路径",
               "path": "/docs/api-reference/next.config.js/basepath.md"
             },
             {
-              "title": "Rewrites",
+              "title": "重写",
               "path": "/docs/api-reference/next.config.js/rewrites.md"
             },
             {
-              "title": "Redirects",
+              "title": "重定向",
               "path": "/docs/api-reference/next.config.js/redirects.md"
             },
             {
-              "title": "Custom Headers",
+              "title": "自定义 Headers",
               "path": "/docs/api-reference/next.config.js/headers.md"
             },
             {
-              "title": "Custom Page Extensions",
+              "title": "自定义 Page 扩展名",
               "path": "/docs/api-reference/next.config.js/custom-page-extensions.md"
             },
             {
-              "title": "CDN Support with Asset Prefix",
+              "title": "具有资产前缀的CDN支持",
               "path": "/docs/api-reference/next.config.js/cdn-support-with-asset-prefix.md"
             },
             {
-              "title": "Build Target",
+              "title": "构建目标",
               "path": "/docs/api-reference/next.config.js/build-target.md"
             },
             {
-              "title": "Custom Webpack Config",
+              "title": "自定义 Webpack 配置",
               "path": "/docs/api-reference/next.config.js/custom-webpack-config.md"
             },
             {
-              "title": "Compression",
+              "title": "压缩",
               "path": "/docs/api-reference/next.config.js/compression.md"
             },
             {
-              "title": "Static Optimization Indicator",
+              "title": "静态优化指标",
               "path": "/docs/api-reference/next.config.js/static-optimization-indicator.md"
             },
             {
-              "title": "Runtime Configuration",
+              "title": "运行时配置",
               "path": "/docs/api-reference/next.config.js/runtime-configuration.md"
             },
             {
-              "title": "Disabling x-powered-by",
+              "title": "静止输出 x-powered-by",
               "path": "/docs/api-reference/next.config.js/disabling-x-powered-by.md"
             },
             {
-              "title": "Disabling ETag Generation",
+              "title": "静止生成 ETag",
               "path": "/docs/api-reference/next.config.js/disabling-etag-generation.md"
             },
             {
-              "title": "Setting a custom build directory",
+              "title": "自定义构建目录",
               "path": "/docs/api-reference/next.config.js/setting-a-custom-build-directory.md"
             },
             {
-              "title": "Configuring the Build ID",
+              "title": "配置构建 ID",
               "path": "/docs/api-reference/next.config.js/configuring-the-build-id.md"
             },
             {
-              "title": "Configuring onDemandEntries",
+              "title": "配置 onDemandEntries",
               "path": "/docs/api-reference/next.config.js/configuring-onDemandEntries.md"
             },
             {
-              "title": "Ignoring TypeScript Errors",
+              "title": "忽略 TypeScript 错误",
               "path": "/docs/api-reference/next.config.js/ignoring-typescript-errors.md"
             },
             {
@@ -300,11 +300,11 @@
               "path": "/docs/api-reference/next.config.js/exportPathMap.md"
             },
             {
-              "title": "Trailing Slash",
+              "title": "路由尾随斜线",
               "path": "/docs/api-reference/next.config.js/trailing-slash.md"
             },
             {
-              "title": "React Strict Mode",
+              "title": "React 严格模式",
               "path": "/docs/api-reference/next.config.js/react-strict-mode.md"
             }
           ]
