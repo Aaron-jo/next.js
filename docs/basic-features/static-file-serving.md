@@ -1,12 +1,12 @@
 ---
-description: Next.js allows you to serve static files, like images, in the public directory. You can learn how it works here.
+description: Next.js 支持为 public 目录下存放的静态文件（例如图片）提供对外访问服务。在此文档中你将了解到这一功能是如何工作的。
 ---
 
-# Static File Serving
+# 静态文件服务
 
-Next.js can serve static files, like images, under a folder called `public` in the root directory. Files inside `public` can then be referenced by your code starting from the base URL (`/`).
+Next.js 支持将静态文件（例如图片）存放到根目录下的 `public` `public` 目录下存放的静态文件的对外访问路径以 (`/`) 作为起始路径。
 
-For example, if you add an image to `public/my-image.png`, the following code will access the image:
+例如，如果你添加了一张图片到 `public/my-image.png` 路径，则以下代码就能访问到此图片:
 
 ```jsx
 function MyImage() {
@@ -16,10 +16,10 @@ function MyImage() {
 export default MyImage
 ```
 
-This folder is also useful for `robots.txt`, Google Site Verification, and any other static files (including `.html`)!
+此文件夹还可用于存放 `robots.txt` 文件、Google 站点验证文件以及任何其它静态文件（包括 .html 文件）！
 
-> **Note**: Don't name the `public` directory anything else. The name cannot be changed and is the only directory used to serve static assets.
+> **注意**: 请勿为 public 改名。不能更改名称，它是唯一用于服务静态资产的目录。
 
-> **Note**: Be sure to not have a static file with the same name as a file in the `pages/` directory, as this will result in an error.
+> **注意**: 请确保静态文件中没有与 `pages/` 目录下的文件重名的，否则这将导致错误。
 >
-> Read more: <http://err.sh/next.js/conflicting-public-file-page>
+> 更多信息: <http://err.sh/next.js/conflicting-public-file-page>

@@ -1,28 +1,28 @@
 ---
-description: Learn to add and access environment variables in your Next.js application.
+description: 学习如何在 Next.js 应用程序中添加及获取环境变量。
 ---
 
-# Environment Variables
+# 环境变量
 
-> This document is for Next.js versions 9.4 and up. If you’re using an older version of Next.js, upgrade or refer to [Environment Variables in next.config.js](/docs/api-reference/next.config.js/environment-variables.md).
+> 本文档适用于 9.4 和更高版本的 Next.js。如果你使用的是较旧版本的 Next.js，请参阅[next.config.js 中的环境变量](/docs/api-reference/next.config.js/environment-variables.md)。
 
 <details open>
-  <summary><b>Examples</b></summary>
+  <summary><b>示例</b></summary>
   <ul>
     <li><a href="https://github.com/vercel/next.js/tree/canary/examples/environment-variables">Environment Variables</a></li>
   </ul>
 </details>
 
-Next.js comes with built-in support for environment variables, which allows you to do the following:
+Next.js 内置了对环境变量的支持，让你可以执行以下操作:
 
-- [Use `.env.local` to load environment variables](#loading-environment-variables)
-- [Expose environment variables to the browser](#exposing-environment-variables-to-the-browser)
+- [使用 `.env.local` 加载环境变量](#loading-environment-variables)
+- [向浏览器公开环境变量](#exposing-environment-variables-to-the-browser)
 
-## Loading Environment Variables
+## 加载环境变量
 
-Next.js has built-in support for loading environment variables from `.env.local` into `process.env`.
+Next.js 内置了对从 `.env.local` 装入 `process.env` 环境变量的支持。
 
-An example `.env.local`:
+一个 `.env.local` 的例子:
 
 ```bash
 DB_HOST=localhost
@@ -30,9 +30,9 @@ DB_USER=myuser
 DB_PASS=mypassword
 ```
 
-This loads `process.env.DB_HOST`, `process.env.DB_USER`, and `process.env.DB_PASS` into the Node.js environment automatically allowing you to use them in [Next.js data fetching methods](/docs/basic-features/data-fetching) and [API routes](/docs/api-routes/introduction).
+加载`process.env.DB_HOST`、 `process.env.DB_USER` 和 `process.env.DB_PASS` 进入 Node.js 环境，允许您在 [Next.js 数据获取方法](/docs/basic-features/data-fetching)和 [API 路由](/docs/api-routes/introduction)中使用它们。
 
-For example, using [`getStaticProps`](/docs/basic-features/data-fetching#getstaticprops-static-generation):
+比如，使用 [`getStaticProps`](/docs/basic-features/data-fetching#getstaticprops-static-generation):
 
 ```js
 // pages/index.js
@@ -46,8 +46,8 @@ export async function getStaticProps() {
 }
 ```
 
-> **Note**: Next.js will automatically expand variables (`$VAR`) inside of your `.env*` files.
-> This allows you to reference other secrets, like so:
+> **注意**: Next.js将在您的 `.env*` 文件中自动展开变量（`$VAR`）。
+> 这允许你引用其他内置变量，比如:
 >
 > ```bash
 > # .env
@@ -56,9 +56,9 @@ export async function getStaticProps() {
 > HOST=http://$HOSTNAME:$PORT
 > ```
 >
-> If you are trying to use a variable with a `$` in the actual value, it needs to be escaped like so: `\$`.
+> 如果您试图在实际值中使用一个带有 `$` 的变量，那么就需要像这样进行转义 `\$`.
 >
-> For example:
+> 比如:
 >
 > ```bash
 > # .env
@@ -67,17 +67,17 @@ export async function getStaticProps() {
 > CORRECT=pre\$A # becomes "pre$A"
 > ```
 
-## Exposing Environment Variables to the Browser
+## 向浏览器公开环境变量
 
-By default all environment variables loaded through `.env.local` are only available in the Node.js environment, meaning they won't be exposed to the browser.
+默认情况下，通过 `.env.local` 加载的所有环境变量仅在 Node.js 环境中可用，这意味着它们不会暴露在浏览器中。
 
-In order to expose a variable to the browser you have to prefix the variable with `NEXT_PUBLIC_`. For example:
+为了向浏览器公开一个变量，你必须在变量前面加上 `NEXT_PUBLIC_` 。例如:
 
 ```bash
 NEXT_PUBLIC_ANALYTICS_ID=abcdefghijk
 ```
 
-This loads `process.env.NEXT_PUBLIC_ANALYTICS_ID` into the Node.js environment automatically. Allowing you to use it anywhere in your code. The value will be inlined into JavaScript sent to the browser because of the `NEXT_PUBLIC_` prefix.
+这个加载过程。自动地将 `process.env.NEXT_PUBLIC_ANALYTICS_ID` 放入Node.js环境中。允许您在代码中的任何位置使用它。由于 `NEXT_PUBLIC_` 前缀，该值将同步发送到浏览器的 JavaScript 中。
 
 ```js
 // pages/index.js
@@ -93,34 +93,34 @@ function HomePage() {
 export default HomePage
 ```
 
-## Default Environment Variables
+## 默认环境变量
 
-In general only one `.env.local` file is needed. However, sometimes you might want to add some defaults for the `development` (`next dev`) or `production` (`next start`) environment.
+一般只需要一个 `.env.local` 文件。但是，有时您可能希望为`development` (`next dev`) 或 `production` (`next start`) 环境添加一些默认值。
 
-Next.js allows you to set defaults in `.env` (all environments), `.env.development` (development environment), and `.env.production` (production environment).
+Next.js 允许您在 `.env`（所有环境）、`.env.development`（开发环境）和 `.env.production`（生产环境）中设置默认值。
 
-`.env.local` always overrides the defaults set.
+`.env.local` 总是覆盖默认值设置。
 
-> **Note**: `.env`, `.env.development`, and `.env.production` files should be included in your repository as they define defaults. **`.env*.local` should be added to `.gitignore`**, as those files are intended to be ignored. `.env.local` is where secrets can be stored.
+> **注意**: `.env`、 `.env.development` 和 `.env.production` 文件应该包含在存储库中，因为它们定义了默认值。**`.env*.local` 应该添加到 `.gitignore`**, 因为这些文件是要忽略的。 `.env.local` 是可以储存秘密的地方。
 
-## Environment Variables on Vercel
+## Vercel 上的环境变量
 
-When deploying on [Vercel](https://vercel.com) you can configure secrets in the [Environment Variables](https://vercel.com/docs/v2/build-step#environment-variables) section of the project in the Vercel dashboard.
+当在 [Vercel](https://vercel.com) 上进行部署时，您可以在 Vercel dashboard 中的[环境变量](https://vercel.com/docs/v2/build-step#environment-variables)部分配置秘密。
 
-You can still use `.env`, `.env.development` and `.env.production` to add defaults.
+您仍然可以使用 `.env`、`.env.development` 和 `.env.production` 来添加默认值。
 
-If you've configured [Development Environment Variables](https://vercel.com/docs/v2/build-step#development-environment-variables) you can pull them into a `.env.local` for usage on your local machine using the following command:
+如果您已经配置了[开发环境变量](https://vercel.com/docs/v2/build-step#development-environment-variables)，您可以使用以下命令将它们拉入 `.env.local` 以便在本地机器上使用：
 
 ```bash
 vercel env pull .env.local
 ```
 
-## Test Environment Variables
+## 测试环境变量
 
-Apart from `development` and `production` environments, there is a 3rd option available: `test`. In the same way you can set defaults for development or production environments, you can do the same with `.env.test` file for testing environment (though this one is not so common as the previous two).
+除了 `development` 和 `production` 环境之外，还有第三个备选办法：`test`。与您可以为开发或生产环境设置默认值的方式一样，您也可以为测试环境设置 `.env.test` 文件（尽管这个文件不如前两个文件那么常见）。
 
-This one is useful when running tests with tools like `jest` or `cypress` where you need to set specific environment vars only for testing purposes. Test default values will be loaded if `NODE_ENV` is set to `test`, though you usually don't need to do this manually as testing tools will address it for you.
+当使用诸如 `jest` 或 `cypress` 之类的工具运行测试时，这一点非常有用，因为您需要为测试目的设置特定的环境变量。如果 `NODE_ENV` 被设置为 `test` ，测试默认值将被加载，尽管您通常不需要手动执行此操作，因为测试工具将为您解决此问题。
 
-There is a small difference between `test` environment, and both `development` and `production` that you need to bear in mind: `.env.local` won't be loaded, as you expect tests to produce the same results for everyone. This way every test execution will use same env defaults across different executions by ignoring your `.env.local` (which is intended to override the default set).
+`test` 与 `development`（和`production`）之间有一个很小的区别，即您需要记住：`.env.local` 不会加载，因为您期望测试对每个人都产生相同的结果。通过这种方式，每个测试执行将在不同的执行过程中使用相同的 env 默认值，方法是忽略您的`.env.local`（其目的是覆盖默认设置）。
 
-> **Note**: similar to Default Environment Variables, `.env.test` file should be included in your repository, but `.env.test.local` shouldn't, as `.env*.local` are intended to be ignored through `.gitignore`.
+> **注意**: 与默认环境变量类似，`.env.test` 文件应该包含在存储库中，但是`.env.test.local`不应该包含，因为 `.env*.local` 应该通过 `.gitignore` 设置忽略。
