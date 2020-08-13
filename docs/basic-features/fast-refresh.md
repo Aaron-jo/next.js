@@ -1,112 +1,56 @@
 ---
-description:
-  Next.js' Fast Refresh is a new hot reloading experience that gives you
-  instantaneous feedback on edits made to your React components.
+description: Next.js' 快速刷新是一个新的热加载的体验，在你编辑 React 组件的时候，给你即时反馈。
 ---
 
-# Fast Refresh
+# 快速刷新
 
-Fast Refresh is a Next.js feature that gives you instantaneous feedback on
-edits made to your React components. Fast Refresh is enabled by default in all
-Next.js applications on **9.4 or newer**. With Next.js Fast Refresh enabled,
-most edits should be visible within a second, **without losing component
-state**.
+“快速刷新”是一个 Next.js 特性，它为你提供对 React 组件所做的编辑的即时反馈。默认情况下在 **9.4 或更高版本**的所有 Next.js 应用程序中都启用了快速刷新。启用 Next.js 快速刷新后，大多数编辑应该在一秒钟内可见，而且**不会丢失组件状态**。
 
-## How It Works
+## 它是如何工作的
 
-- If you edit a file that **only exports React component(s)**, Fast Refresh will
-  update the code only for that file, and re-render your component. You can edit
-  anything in that file, including styles, rendering logic, event handlers, or
-  effects.
-- If you edit a file with exports that _aren't_ React components, Fast Refresh
-  will re-run both that file, and the other files importing it. So if both
-  `Button.js` and `Modal.js` import `theme.js`, editing `theme.js` will update
-  both components.
-- Finally, if you **edit a file** that's **imported by files outside of the
-  React tree**, Fast Refresh **will fall back to doing a full reload**. You
-  might have a file which renders a React component but also exports a value
-  that is imported by a **non-React component**. For example, maybe your
-  component also exports a constant, and a non-React utility file imports it. In
-  that case, consider migrating the constant to a separate file and importing it
-  into both files. This will re-enable Fast Refresh to work. Other cases can
-  usually be solved in a similar way.
+- 如果编辑一个只导出React组件的文件，则快速刷新将只更新该文件的代码，然后重新呈现组件。你可以编辑该文件中的任何内容，包括样式、呈现逻辑、事件处理程序或 effects。
+- 如果你编辑一个导出的文件_不是_ React 组件，那么快速刷新将重新运行这两个文件，和其他导入它的文件。因此，如果`Button.js` 和 `Modal.js` 导入 `theme.js`，编辑 `theme.js` 就会更新这两个组件。
+- 最后，如果你**编辑文件**是**由 React 树之外的文件导入**，快速刷新**将回落到做一个完整的热重装**。你可能有一个文件，它渲染了一个 React 组件，但也导出了一个由**非 React 组件**导入的值。例如，也许你的组件还导出一个常量，一个非 React 实用程序文件导入了它。在这种情况下，考虑将常量迁移到一个单独的文件并分别从这两个文件中导入它。这将重新启用“快速刷新”功能。其他情况下可以通常以类似的方式解决。
 
-## Error Resilience
+## 错误恢复能力
 
-### Syntax Errors
+### 语法错误
 
-If you make a syntax error during development, you can fix it and save the file
-again. The error will disappear automatically, so you won't need to reload the
-app. **You will not lose component state**.
+如果在开发过程中出现语法错误，可以修复它并再次保存文件。错误将自动消失，因此你不需要重启项目。**你不会丢失组件状态**。
 
-### Runtime Errors
+### 运行时错误
 
-If you make a mistake that leads to a runtime error inside your component,
-you'll be greeted with a contextual overlay. Fixing the error will automatically
-dismiss the overlay, without reloading the app.
+如果你犯了一个错误，导致组件内部出现运行时错误，你将会收到一个上下文复盖。修复错误将自动取消复盖，而不重新加载应用程序。
 
-Component state will be retained if the error did not occur during rendering. If
-the error did occur during rendering, React will remount your application using
-the updated code.
+如果在呈现期间没有发生错误，组件状态将被保留。如果在渲染过程中发生错误，React 将使用更新的代码重新安装应用程序。
 
-If you have [error boundaries](https://reactjs.org/docs/error-boundaries.html)
-in your app (which is a good idea for graceful failures in production), they
-will retry rendering on the next edit after a rendering error. This means having
-an error boundary can prevent you from always getting reset to the root app
-state. However, keep in mind that error boundaries shouldn't be _too_ granular.
-They are used by React in production, and should always be designed
-intentionally.
+如果你的应用有[错误的边界](https://reactjs.org/docs/error-boundaries.html)（这是一个很好的主意，在生产中优雅的失败），他们将在下一次编辑时重试渲染。这意味着有一个错误边界可以防止你总是得到重置到初始的应用程序状态。但是，请记住，错误边界_不_应该太细。在生产过程中，它们被 React 使用，并且应该被故意设计。
 
-## Limitations
+## 局限性
 
-Fast Refresh tries to preserve local React state in the component you're
-editing, but only if it's safe to do so. Here's a few reasons why you might see
-local state being reset on every edit to a file:
+“快速刷新”尝试在正在编辑的组件中保留本地 React 状态，但前提是这样做是安全的。这里有几个原因可以解释为什么在每次编辑时都会重置本地状态:
 
-- Local state is not preserved for class components (only function components
-  and Hooks preserve state).
-- The file you're editing might have _other_ exports in addition to a React
-  component.
-- Sometimes, a file would export the result of calling higher-order component
-  like `higherOrderComponent(WrappedComponent)`. If the returned component is a
-  class, state will be reset.
+- 类组件不保留本地状态（只有函数组件和钩子保留状态）。
+- 你正在编辑的文件除了 React 组件外可能还有_其他_导出。
+- 有时，一个文件会输出调用高阶组件的结果，如 `higherOrderComponent(WrappedComponent)`。如果返回的组件是一个类，则将重置状态。
 
-As more of your codebase moves to function components and Hooks, you can expect
-state to be preserved in more cases.
+随着更多的代码库移动到函数组件和 Hooks，你可以期望在更多的情况下保留状态。
 
-## Tips
+## 提示
 
-- Fast Refresh preserves React local state in function components (and Hooks) by
-  default.
-- Sometimes you might want to _force_ the state to be reset, and a component to
-  be remounted. For example, this can be handy if you're tweaking an animation
-  that only happens on mount. To do this, you can add `// @refresh reset`
-  anywhere in the file you're editing. This directive is local to the file, and
-  instructs Fast Refresh to remount components defined in that file on every
-  edit.
-- You can put `console.log` or `debugger;` into the components you edit during
-  development.
+- 默认情况下，快速刷新会在函数组件(和钩子)中响应本地状态。
+- 有时你可能有希望强制重置状态和需要要重新挂载的组件。例如，如果你正在调整仅在挂载上发生的动画，这会非常方便。为此，你可以在正在编辑的文件中的任何位置添加 `// @refresh reset` 。这个指令是该文件的本地指令，并指示“快速刷新”在每次编辑时重新装入该文件中定义的组件。
+- 你可以在开发过程中将 `console.log` 或 `debugger;` 放入你编辑的组件中。
 
-## Fast Refresh and Hooks
+## 快速刷新和 Hooks
 
-When possible, Fast Refresh attempts to preserve the state of your component
-between edits. In particular, `useState` and `useRef` preserve their previous
-values as long as you don't change their arguments or the order of the Hook
-calls.
+在可能的情况下，快速刷新尝试在编辑之间保留组件的状态。特别是，只要不更改 `useState` 和 `useRef` 的参数或调用的顺序。
 
-Hooks with dependencies—such as `useEffect`, `useMemo`, and `useCallback`—will
-_always_ update during Fast Refresh. Their list of dependencies will be ignored
-while Fast Refresh is happening.
+带有依赖项的钩子 — 比如 `useEffect`、 `useMemo` 和 `useCallback` - 在快速刷新期间_总是_更新。当快速刷新发生时，它们的依赖项列表将被忽略。
 
-For example, when you edit `useMemo(() => x * 2, [x])` to
-`useMemo(() => x * 10, [x])`, it will re-run even though `x` (the dependency)
-has not changed. If React didn't do that, your edit wouldn't reflect on the
-screen!
+例如，当你编辑`useMemo(() => x * 2, [x])` 成 `useMemo(() => x * 10, [x])`，即使 `x`（依赖项）没有改变，它也会重新运行。如果 React 没有这样做，你的编辑就不会显示出来！
 
-Sometimes, this can lead to unexpected results. For example, even a `useEffect`
-with an empty array of dependencies would still re-run once during Fast Refresh.
+有时，这会导致意想不到的结果。例如，即使是带有依赖项的空数组的 `useEffect` 在快速刷新期间仍然会重新运行一次。
 
-However, writing code resilient to occasional re-running of `useEffect` is a good practice even
-without Fash Refresh. It will make it easier for you to introduce new dependencies to it later on
-and it's enforced by [React Strict Mode](/docs/api-reference/next.config.js/react-strict-mode),
-which we highly recommend enabling.
+然而，即使没有快速刷新，编写能够偶尔重新运行 `useEffect` 的代码也是一个很好的实践。这将使你更容易在以后引入新的依赖项。它是由 [React 严格模式](/docs/api-reference/next.config.js/react-strict-mode)执行的，我们强烈建议启用它。
+

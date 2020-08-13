@@ -1,29 +1,29 @@
 ---
-description: Next.js supports TypeScript by default and has built-in types for pages and the API. You can get started with TypeScript in Next.js here.
+description: Next.js 默认支持 TypeScript，并具有针对页面和 API 的内置类型。 在这里，您可以从 TypeScript 开始 Next.js。
 ---
 
 # TypeScript
 
 <details>
-  <summary><b>Examples</b></summary>
+  <summary><b>示例</b></summary>
   <ul>
     <li><a href="https://github.com/vercel/next.js/tree/canary/examples/with-typescript">TypeScript</a></li>
   </ul>
 </details>
 
-Next.js provides an integrated [TypeScript](https://www.typescriptlang.org/) experience out of the box, similar to an IDE.
+Next.js 提供了一种开箱即用的集成 [TypeScript](https://www.typescriptlang.org/) 体验，类似于 IDE。
 
-To get started, create an empty `tsconfig.json` file in the root of your project:
+首先，在项目的根目录中创建一个空的 `tsconfig.json` 文件:
 
 ```bash
 touch tsconfig.json
 ```
 
-Next.js will automatically configure this file with default values. Providing your own `tsconfig.json` with custom [compiler options](https://www.typescriptlang.org/docs/handbook/compiler-options.html) is also supported.
+Next.js 将使用默认值自动配置此文件。还支持使用自定义[编译器选项](https://www.typescriptlang.org/docs/handbook/compiler-options.html)提供自己的 `tsconfig.json` 。
 
-> Next.js uses Babel to handle TypeScript, which has some [caveats](https://babeljs.io/docs/en/babel-plugin-transform-typescript#caveats), and some [compiler options are handled differently](https://babeljs.io/docs/en/babel-plugin-transform-typescript#typescript-compiler-options).
+> Next.js 使用 Babel 来处理 TypeScript，它有一些[警告](https://babeljs.io/docs/en/babel-plugin-transform-typescript#caveats)，一些[编译器选项的处理方式也不同](https://babeljs.io/docs/en/babel-plugin-transform-typescript#typescript-compiler-options)。
 
-Then, run `next` (normally `npm run dev`) and Next.js will guide you through the installation of the required packages to finish the setup:
+然后，运行 `next`（正常情况下 `npm run dev`）和 Next.js 将指导您安装所需的包，以完成安装工作:
 
 ```bash
 npm run dev
@@ -37,19 +37,19 @@ npm run dev
 # ...
 ```
 
-You're now ready to start converting files from `.js` to `.tsx` and leveraging the benefits of TypeScript!.
+现在可以开始将文件从 `.js` 转换为 `.tsx` 并利用 TypeScript 的好处！。
 
-> A file named `next-env.d.ts` will be created in the root of your project. This file ensures Next.js types are picked up by the TypeScript compiler. **You cannot remove it**, however, you can edit it (but you don't need to).
+> 将自动在您的项目的根目录中创建 `next-env.d.ts` 文件。这个文件确保 TypeScript 编译器检测到 Next.js 类型。 **你不能删除它**，但是，你可以编辑它 (但你不需要这么做)。
 
-> Next.js `strict` mode is turned off by default. When you feel comfortable with TypeScript, it's recommended to turn it on in your `tsconfig.json`.
+> 默认情况下 Next.js `strict` 模式是关闭的。当你对 TypeScript 足够熟悉，建议你在 `tsconfig.json` 中打开它。
 
-By default, Next.js will do type checking as part of `next build`. We recommend using code editor type checking during development.
+默认情况下，`next build` 时 Next.js 将执行类型检查。我们建议在开发过程中使用代码编辑器类型检查。
 
-If you want to silence the error reports, refer to the documentation for [Ignoring TypeScript errors](/docs/api-reference/next.config.js/ignoring-typescript-errors.md).
+如果您想让错误报告沉默，请参考文档中的[忽略 TypeScript 错误](/docs/api-reference/next.config.js/ignoring-typescript-errors.md)。
 
-## Static Generation and Server-side Rendering
+## 静态生成与服务器端渲染
 
-For `getStaticProps`, `getStaticPaths`, and `getServerSideProps`, you can use the `GetStaticProps`, `GetStaticPaths`, and `GetServerSideProps` types respectively:
+关于 `getStaticProps`、`getStaticPaths` 和 `getServerSideProps`，你可以分别使用这些类型 `GetStaticProps` 、 `GetStaticPaths` 和 `GetServerSideProps`:
 
 ```ts
 import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next'
@@ -67,11 +67,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 }
 ```
 
-> If you're using `getInitialProps`, you can [follow the directions on this page](/docs/api-reference/data-fetching/getInitialProps.md#typescript).
+> 如果您使用的是 `getInitialProps`，您可以[按照本页的说明](/docs/api-reference/data-fetching/getInitialProps.md#typescript)。
 
 ## API Routes
 
-The following is an example of how to use the built-in types for API routes:
+以下是如何将内置类型用于 API routes的示例:
 
 ```ts
 import { NextApiRequest, NextApiResponse } from 'next'
@@ -81,7 +81,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
 }
 ```
 
-You can also type the response data:
+您还可以定义响应数据类型:
 
 ```ts
 import { NextApiRequest, NextApiResponse } from 'next'
@@ -95,9 +95,9 @@ export default (req: NextApiRequest, res: NextApiResponse<Data>) => {
 }
 ```
 
-## Custom `App`
+## 自定义 `App`
 
-If you have a [custom `App`](/docs/advanced-features/custom-app), you can use the built-in type `AppProps` and change file name to `./pages/_app.tsx` like so:
+如果您使用[自定义 `App`](/docs/advanced-features/custom-app)，您可以在 `./pages/_app.tsx` 中像这样使用内置类型 `AppProps` :
 
 ```ts
 // import App from "next/app";
@@ -122,8 +122,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 export default MyApp
 ```
 
-## Path aliases and baseUrl
+## 路径别名和 baseUrl
 
-Next.js automatically supports the `tsconfig.json` `"paths"` and `"baseUrl"` options.
+Next.js 自动支持 `tsconfig.json` `"paths"` 和 `"baseUrl"` 选项。
 
-You can learn more about this feature on the [Module Path aliases documentation](/docs/advanced-features/module-path-aliases.md).
+您可以在[模块路径别名文档](/docs/advanced-features/module-path-aliases.md)中了解更多有关此功能的信息。
