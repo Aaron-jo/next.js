@@ -5,7 +5,7 @@ description: Next.js supports API Routes, which allow you to build your API with
 # API Routes
 
 <details open>
-  <summary><b>Examples</b></summary>
+  <summary><b>示例</b></summary>
   <ul>
     <li><a href="https://github.com/vercel/next.js/tree/canary/examples/api-routes">Basic API Routes</a></li>
     <li><a href="https://github.com/vercel/next.js/tree/canary/examples/api-routes-middleware">API Routes with middleware</a></li>
@@ -15,11 +15,11 @@ description: Next.js supports API Routes, which allow you to build your API with
   </ul>
 </details>
 
-API routes provide a straightforward solution to build your **API** with Next.js.
+API routes 为使用 Next.js 构建你自己的 **API** 提供了一种解决方案。
 
-Any file inside the folder `pages/api` is mapped to `/api/*` and will be treated as an API endpoint instead of a `page`.
+`pages/api` 目录下的任何文件都将作为 API 端点映射到 `/api/*`，而不是 `page`。
 
-For example, the following API route `pages/api/user.js` handles a `json` response:
+例如, 以下的API route `pages/api/user.js` 处理了一个 `json` 响应:
 
 ```js
 export default (req, res) => {
@@ -29,12 +29,11 @@ export default (req, res) => {
 }
 ```
 
-For an API route to work, you need to export as default a function (a.k.a **request handler**), which then receives the following parameters:
+为了使 API 路由能正常工作，你需要导出(export)一个默认函数(a.k.a **请求处理器**)，并且该函数能够接收以下参数:
 
-- `req`: An instance of [http.IncomingMessage](https://nodejs.org/api/http.html#http_class_http_incomingmessage), plus some pre-built middlewares you can see [here](/docs/api-routes/api-middlewares.md)
-- `res`: An instance of [http.ServerResponse](https://nodejs.org/api/http.html#http_class_http_serverresponse), plus some helper functions you can see [here](/docs/api-routes/response-helpers.md)
-
-To handle different HTTP methods in an API route, you can use `req.method` in your request handler, like so:
+- `req`: 一个 [http.IncomingMessage](https://nodejs.org/api/http.html#http_class_http_incomingmessage) 实例, 以及一些你可以在 [这里](/docs/api-routes/api-middlewares.md) 看到的中间件
+- `res`: 一个 [http.ServerResponse](https://nodejs.org/api/http.html#http_class_http_serverresponse) 实例, 以及一些你可以在 [这里](/docs/api-routes/response-helpers.md) 看到的辅助函数
+要处理 API route 的不同 HTTP 方法，可以在请求处理器中使用 `req.method`，如下所示:
 
 ```js
 export default (req, res) => {
@@ -46,33 +45,33 @@ export default (req, res) => {
 }
 ```
 
-To fetch API endpoints, take a look into any of the examples at the start of this section.
+请求 API，请查看本章开头列出的任何一个示例。
 
-> API Routes [do not specify CORS headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS), meaning they are **same-origin only** by default. You can customize such behavior by wrapping the request handler with the [cors middleware](/docs/api-routes/api-middlewares.md#connectexpress-middleware-support).
+> 如果 API 路由[未指定CORS标头](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) 则意味着它们在默认情况下 **仅是同源策略(same-origin)**。你可以通过使用[CORS中间件](/docs/api-routes/api-middlewares.md#connectexpress-middleware-support)包装出一个请求处理器来自定义此行为。
 
-> API Routes do not increase your client-side bundle size. They are server-side only bundles.
+> API Routes不会增加你的客户端包大小。它们只会打包到服务端。
 
-## Related
+## 了解更多
 
-For more information on what to do next, we recommend the following sections:
+为了获取下一步的更多信息，我们建议你接下来阅读以下章节:
 
 <div class="card">
   <a href="/docs/api-routes/api-middlewares.md">
-    <b>API Middlewares:</b>
-    <small>learn about the built-in middlewares for the request.</small>
+    <b>API 中间件:</b>
+    <small>学习更多关于request的内置中间件</small>
   </a>
 </div>
 
 <div class="card">
   <a href="/docs/api-routes/response-helpers.md">
-    <b>Response Helpers:</b>
-    <small>learn about the built-in methods for the response.</small>
+    <b>响应辅助函数:</b>
+    <small>学习更多关于response的内置方法</small>
   </a>
 </div>
 
 <div class="card">
   <a href="/docs/basic-features/typescript.md#api-routes">
     <b>TypeScript:</b>
-    <small>Add TypeScript to your API Routes.</small>
+    <small>添加TypeScript到你的API Routes</small>
   </a>
 </div>
